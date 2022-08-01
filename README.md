@@ -30,10 +30,10 @@ Các file mã nguồn đã setup 3 endpoints:
 * Tạo migrations ( ```python manage.py makemigrations``` )
 * Migrate dữ liệu ( ```python manage.py migrate``` )
 * Điều chỉnh các file cần thiết ( Những file có comment ```TODO:``` ) để hoàn thành task:
-- ```src/account/models.py```
-- ```src/account/services.py```
-- ```src/core/jwt.py```
-- ```src/api/serializers/login.py```
+    - ```src/account/models.py```
+    - ```src/account/services.py```
+    - ```src/core/jwt.py```
+    - ```src/api/serializers/login.py```
 
 
 ## Deadlines
