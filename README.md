@@ -18,7 +18,7 @@ Hãy chỉnh sửa các file mã nguồn có sẵn để đáp ứng các yêu c
 Các file mã nguồn đã setup 3 endpoints:
 - ```api/login/```: dùng để login và nhận được token
 - ```api/verify-token/```: dùng để xác thực token có thể được sử dụng hay không
-- ```api/me/```: dùng để xem thông tin user đang login
+- ```api/me/```: dùng để xem thông tin user đang login ( Thêm vào header ```"Authorization": "JWT {token}"``` )
 
 ## Tests
 Để có thể test các yêu cầu bạn có thể sử dụng lệnh ```pytest```
