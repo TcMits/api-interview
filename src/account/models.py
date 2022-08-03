@@ -1,7 +1,7 @@
+from enum import unique
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import models as auth_models
 from typing import Any, Optional
-
 
 class UserManager(auth_models.BaseUserManager):
     def create_user(
@@ -33,7 +33,16 @@ class UserManager(auth_models.BaseUserManager):
 
 
 class User(auth_models.AbstractUser):
-    # TODO: something
+    name = auth_models.CharField(max_length=255)
+    email = auth_models.CharField(max_length=255, unique=True)
+    password = auth_models.CharField(max_length=255)
+    username = None
+    
+    USERNAME_FIELD = 'email'
+    
+    def __str__(self):
+        return self.name
+     
 
     class Meta:
         verbose_name = _("Tài khoản")

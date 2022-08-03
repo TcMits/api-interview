@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
+from urllib import response
 
 import jwt
 from django.conf import settings
+from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils.translation import gettext as _
@@ -101,8 +103,15 @@ def get_token_from_request(request: WSGIRequest) -> Optional[str]:
 
 
 def get_user_from_payload(payload: Dict[str, Any]) -> Optional[User]:
-    # TODO: getting user from payload
-    return None
+    token = jwt.encode(payload, algorithm="HS256").decode('utf8')
+    response = Response()
+    
+    response.set_cookie(key='jwt', value = token)
+    response.data = {
+        'jwt': token,
+    }
+    
+    return response
 
 
 def get_user_from_access_token(token: str) -> Optional[User]:

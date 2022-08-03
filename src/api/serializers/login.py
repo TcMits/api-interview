@@ -9,15 +9,19 @@ from django.middleware.csrf import (
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from rest_framework import exceptions
+from rest_framework.response import Response
 
 from jwt.exceptions import PyJWTError
 from rest_framework import serializers
+
+import jwt
 
 from src.account.services import login
 from src.core.jwt import (
     create_access_token,
     create_refresh_token,
     get_user_from_access_token,
+    get_user_from_payload,
 )
 from src.core.mixins.serializers import ViewProxySerializerMixin
 
@@ -94,5 +98,16 @@ class VerifyTokenSerializer(serializers.Serializer):
 
 
 class MeViewSerializer(serializers.Serializer):
-    # TODO: something
-    pass
+    def get(self, request):
+        token = request.COOKIES.get('jwt')
+        
+        if not token:
+            print('Unauthenticated access token')
+        try:
+            payload = jwt.decode(token, algorithm=['HS256'])
+        except jwt.ExpiredSignatureError:
+            print('Unauthenticated access token')
+
+        user = User.objects.filter(email= payload['email']).first()
+        serializer = get_user_from_payload(user)
+        return Response(serializer.data)
